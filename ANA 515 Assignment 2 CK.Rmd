@@ -1,0 +1,78 @@
+---
+title: "ANA 515 Assignment 2"
+author: "Clarentia Kurnia"
+date: "4/8/2022"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Libraries
+```{r}
+
+#install.packages("tidyverse")
+#install.packages("readr")
+#install.packages("dplyr")
+#install.packages("stringr")
+#install.packages("knitr")
+library(tidyverse)
+library(readr)
+library(dplyr)
+library(stringr)
+library(knitr)
+```
+
+## Description of the data
+
+The dataset Alcohol Consumption measures the beer, spirit, and wine servings of 193 countries in 2010. It also measures the total litres of pure alcohol each country consumes. The data was collected by World Health Organization (WHO) and Global Information System on Alcohol and Health (GISAH) in 2010. WHO utilized government records and statistics from the alcohol industry and the United Nation's Food and Agriculture Organization database. The data is saved in a CSV file that is 4.28 KB in size. It is delimited with comma as its delimiter. 
+
+## Reading the data into R
+
+```{r data, echo=TRUE}
+url <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv"
+drinks <- read_csv(url(url))
+```
+
+To read the data into R and assign it to a dataframe object, I installed the package 'tidyverse' and used the function 'read_csv'. I assigned the data to a dataframe called 'drinks'.
+
+## Cleaning the data
+
+```{r clean, echo=TRUE}
+drinks$country <- str_to_title(drinks$country)
+drinks$beer_servings <- str_to_title(drinks$beer_servings)
+drinks$spirit_servings <- str_to_title(drinks$spirit_servings)
+drinks$wine_servings <- str_to_title(drinks$wine_servings)
+drinks$total_litres_of_pure_alcohol <- str_to_title(drinks$total_litres_of_pure_alcohol)
+```
+
+I installed the package 'stringr' to rename the columns. The function str_to_title replaces the column names into a title format. For example, "country" becomes "Country".
+
+## Characteristics of the data
+
+```{r char, echo=TRUE}
+a <- nrow(drinks)
+b <- ncol(drinks)
+```
+
+This dataframe has `r a` rows and `r b` columns. The names of the columns and a brief description of each are in the table below:
+
+|Column Name                    |Description                                |
+|-------------------------------|-------------------------------------------|
+|Country                        |Name of country being measured             |
+|Beer servings                  |Number of 12-ounce cans of beer consumed   |
+|Spirit servings                |Number of measures of spirit consumed      |
+|Wine servings                  |Number of glasses of wine consumed         |
+|Total litres of pure alcohol   |Number of litres of hard liquor consumed   |
+
+
+## Summary Statistics 
+```{r summary, echo=TRUE}
+drinks <- subset(drinks, select=-c(country,total_litres_of_pure_alcohol))
+drinks_summary <- summary(drinks)
+print(drinks_summary)
+```
+ 
+Here I created a summary of my data, where it provides the length, class, and mode of each column.
+
